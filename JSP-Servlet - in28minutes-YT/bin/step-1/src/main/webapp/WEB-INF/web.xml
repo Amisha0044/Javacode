@@ -1,0 +1,38 @@
+<!-- webapp/WEB-INF/web.xml -->
+
+<!-- # This web.xml file is the Deployment Descriptor for a Java web application. 
+	   It tells the server how to set up and run the application. 
+	 # What is web.xml? 
+		* It is a configuration file for Java Servlets and Web Applications. 
+		* Located in WEB-INF/ inside the project. 
+		* Used to define settings like: 
+			>> Default home page (welcome-file) 
+			>> Servlet mappings (older way) 
+			>> Security settings (if needed) -->
+
+
+<!-- Defines the web application | Defines the XML format for the web application -->
+<!-- xmlns - Declares Java EE namespace (needed for Servlet applications). 
+	xsi:schemaLocation - Links to the schema definition (web-app_3_0.xsd), ensuring 
+	this follows Java EE 3.0 rules. version - Java EE version used (Servlet 3.0) -->
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<!-- Sets the name of the web application. Shown in some server dashboards 
+		(not visible in the browser) -->
+	<display-name>To do List</display-name>
+
+	<!-- Sets the default page when a user visits http://localhost:8080/. Instead 
+		of showing a directory listing, it redirects to login.do (handled by LoginServlet). -->
+	<welcome-file-list>
+		<welcome-file>login.do</welcome-file>
+	</welcome-file-list>
+
+</web-app>		<!-- closing tag, Marks the end of the web.xml configuration. -->
+
+
+<!-- "web.xml" file should be inside src/main/webapp/WEB-XML/.. if it is 
+	not inside WEB-XML, it won't work -->
+	
