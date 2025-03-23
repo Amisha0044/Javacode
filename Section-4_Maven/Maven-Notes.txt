@@ -1,0 +1,96 @@
+MAVEN:
+
+- Maven is a project management tool; used to compile, build, test, package and deploy your code.
+
+- Above can be done by IDE as well; but to manage dependencies, it's version upgrade and sync, manually adding each dependency as JAR file from google is not feasible in case of multiple JAR files to manage.
+
+- Example- to connect your Java code with MySQL DB, we need connector i.e. single JAR file as dependency in this case. But, in case of Hibernate framework, we need multiple JAR files (dependencies) and we will need to ensure Hibernate version should be compatible with JDBC and other used frameworks version. Also, in future, if these frameworks are upgraded to new version, dependencies (JAR files) have to be changed to make all these frameworks in sync which is not a feasible and easy task if we do manually with IDE.
+
+- This is when tools like Maven, Gradle comes into picture which make it easier.
+
+- Maven is beginner friendly. It helps in getting the dependencies.
+  Example- you say, HI Maven, I want Hibernate-core (framework name) with 6.0.1 (version). And Maven add the required dependency for you.
+
+- What you can do with MAven?
+  * Managing project life cycle (compile, build, test, package, deploy)
+  * Getting and managing dependencies
+
+-------------------------------------------------------------------------------------
+
+MAVEN IN IDE:
+
+- maven.apache.org  --  official link to download in local
+
+- Usually we use Maven in our IDE.
+  Example- creating a maven project in vscode and eclipse
+
+------------------------------------------------------------------------------------
+
+GETTING DEPENDENCIES:
+
+- google - mvnrepository - open the link and search for required dependency (ex. mysql connector, hibernate) and choose required version, copy the dependency and paste it in pom.xml in dependency section.
+
+pom.xml - pom stands for "Project Object Model"
+        - This is where you do everything to handle Maven.
+
+- Each library include 3 things (GAV) to make each and every library as unique:
+  1) Group ID -- like a package -- ex. com.telusko (use domain name of your org as domain names are unique across the world)
+  2) Artifact ID -- project name -- ex. MavenDemo
+  3) Version ID -- which version -- ex. 1.0-SNAPSHOT
+
+- In pom.xml, add a tag <dependencies> </dependencies> if not present already, and then put all your dependencies/libraries inside this tag.
+
+- After adding dependency, refresh the Maven, and then you will be able to see newly added library JAR ifle in external libraries.
+
+- If you want to give your project to your colleague, he/she can just use the same pom.xml and once he/she refreshed maven, all JAR files will get loaded into his/her system/IDE.
+
+------------------------------------------------------------------------------------
+
+EFFECTIVE "POM" (super "pom") - Parent (of pom.xml):
+
+- Your POM configurations that you have added/done + hidden POM configuration that is given by default.
+
+- To create any even your own project's library/JAR file, you need 3 things- groupId, artifactId and versionId.
+
+- Mention all the dependencies in your project, add it inside the "dependencies" tag.
+
+- To work with plugins, you can add plugins inside the "pluginRepositories" tag which is by default provided by pom.xml and is hidden.
+
+- To view it (effective pom), right click -- maven -- show effective pom (IntelliJ)
+
+- You as a developer, you never make changes inside effective pom, you only modify and work on pom.xml.
+
+------------------------------------------------------------------------------------
+
+MAVEN ARCHETYPE:
+
+- A templating tool; to get the existing templates to use or to create your own custom templates.
+  Ex. you want to work on SpringBoot project and if so, you will need to setup the project and do all basic configuration from scratch by yourself. So, what you can do is to use existing template (called Archtype) for SpringBoot project available in Maven.
+
+- Create a new Maven project with Archetype:
+  file -- new -- maven project (in eclipse, to be able to see this option, make sure you are using Java EE -- top right corner window symbol for Open Perspective - check here if it is JAVA EE) -- maven archetype (ex. spring-mvc-archetype):
+  Catalog: 
+            1) Internal (by default, something which is available from plugins itself or from the maven installation itself) -- mostly used
+            2) Maven Central (to get archetypes from internet)
+  Details:
+            Group Id: com.telusko
+            Artifact Id: DemoMVCProject
+            Version: 0.01-SNAPSHOT (comes automatically)
+  FINISH
+
+------------------------------------------------------------------------------------
+
+HOW MAVEN WORKS:
+
+- Hey Maven, I want this dependency.
+  Maven says, okay.
+  Maven 1st searches foe dependency in your local (.m2 folder). If not available there, then it searches in maven central (remote repository) and download it to .m2 folder
+
+- Always try to use libraries versions which are safe and not vulnerable. If vulnerable, try to update it to safe version.
+
+- If you have the dependency in your local but still it's not working, just go to .m2 folder and delete the file and re-download.
+
+------------------------------------------------------------------------------------
+
+
+

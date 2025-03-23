@@ -1,0 +1,17 @@
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+	
+	<session-factory>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sec6_hibernate</property>
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">Admin@1</property>
+		
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<!-- 
+		auto - by default
+		update - update the table if it already exists as per the provided schema, and create the table if it doesn't exist
+		hbm2ddl - hibernate mapping to data definition language 
+		-->
+	</session-factory>
+	
+</hibernate-configuration>

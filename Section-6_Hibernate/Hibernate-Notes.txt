@@ -1,0 +1,64 @@
+HIBERNATE:
+-----------
+
+- To increase productivity and reduce manual query writing in case of JDBC.
+- Hibernate is an ORM (Object Relational Mapping) framework. Java is an object oriented language and everything/every entity is an object. And in DB, everything is Relational. So, we can map the objects in java to relations in DB.
+- To store the data of the objects in the relational DB, we need to write SQL queries. But, ORM gives an option like taking the object and store it in DB.
+
+Benefits of using Hibernate:
+* helps incresing productivity of developers.
+* easier to nmaintain hibernate code, no need to focus on sql queries.
+* caching, optimisation works smooth and hence enhancing performance.
+
+Example-
+class Student
+{
+    int rollNo;
+    String name;
+    int age;
+}
+obj1 -- rollNo: 1, name: Amisha, age:23
+obj2 -- rollNo: 2, name: Anshika, age:19
+obj3 -- rollNo: 3, name: Vansh, age:16
+obj4 -- rollNo: 4, name: John, age:35
+
+Traditional way with JDBC:
+Que- What should be:
+* table name
+* no of columns
+* name of columns
+* type of it
+* how to represent data in a row
+
+With ORM Tool - Hibernate:
+* table name -- class name -- student
+* no of columns -- no of class fields 
+* name of columns -- same names as class fields but with snake_casing instead of camelCasing
+* type of it -- same as in Java Student class
+* how to represent data in a row -- each object becomes one row
+This is how ORM works, and to implement ORM, we need a tool and Hibernate is that tool.
+
+------------------------------------------------------------------------
+
+PROJECT SETUP: (Eclipse)
+
+- File -- new -- maven project -- no archtype, select workspace loc/festination folder -- com.amisha (group id), sec6_hibernate (artifact id), sec6_hibernate (name) -- finish
+- Open pom.xml, create <dependencies> tag if not present already and add 2 dependencies from mvnrepository.com for postgres JDBC driver and hibernate ORM core.
+- create main class inside src/main/java
+
+------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+------------------------------------------------------------------------

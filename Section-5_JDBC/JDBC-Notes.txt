@@ -1,0 +1,174 @@
+JDBC (Java DataBase Connectivity):
+
+- Data - Information. We even made application to store and process data. So, everything is about data. 
+- Database - to store, process, manage and maintain Data.
+- SQL - Structured Quaery Laguage, used to interact with RDBMS (Relational Database Management System - to work with data stored in tabular form).
+- To connect a Java applucation with the databse, we need some connectivity and this connectivity JDBC provides.
+
+- JDBC is an API that provides connectivity between your DB and Application; and is part of JDK.
+- 
+
+
+------------------------------------------------------------------------------------
+
+POSTGRESQL INSTALLATION AND SETUP:
+
+- google: postgre download (postgresql.org) -- select OS of your machine where you are going to install it
+
+- It provides you a postgreSQL DB installed in your local machine, along with pgAdmin (if you allow with ticking it during installation) to ineract with the DB.
+
+- Open pgAdmin:
+- Create a DataBase, a table inside it with 3 columns (sId-integer, sname-text, marks-integer) and then view table data, all rows.
+- Add data to a row:
+  insert into table1_student values (1, 'Amisha', 97);
+  
+------------------------------------------------------------------------------------
+
+CONNECTING JAVA APPLICATION WITH DB THROUGH JDBC:
+
+- We need the JAR file (library) first as we know DBMS provides us a library which is an implementation of JDBC connector.
+
+JDBC follows below steps to get the connectivity between Java App and DB:
+1) Import the packages - Java.sql 
+2) Load the driver - driver is coming from JAR file and that's why we need JAR file
+3) Register the driver 
+4) Create connection - create connection object in JDBC
+5) Create statement - create SQL query
+6) Execute statement  
+7) Process the results
+8) Close the connection
+   
+Ex. you are working from home and few of your colleagues are working from office and you want to know what is happening in office. So, you will call one of your colleague and ask. What you need for that? 
+   - A mobile (JAR file)
+   - Once you have mobile, you need to have a sim card and network (loading and registering the driver)
+   - You have to make a connection. You have to make sure you can call the people.
+   - Dialing the number and call
+   - Ask your Queries 
+   - Get the response back from your colleague 
+   - You will process the response 
+   - Cut the call (close the connection)
+
+- In JDBC >= 4 with Java > 6, loading and registering the driver is automatically done by JDBC. So, you can focus on steps 4 to 7.
+
+ ------------------------------------------------------------------------------------
+
+HOW TO DOWNLOAD JAR FILE:
+Way-1:
+google -- postgres driver for jdbc -- https://jdbc.postgresql.org/ -- Download -- Select version Java 8 -- Download 
+WAY-2:
+google -- mvnrepository -- https://mvnrepository.com/ -- search and open postgreSQL JDBC Driver -- click on required version -- Click on "jar" in "files" row.
+ 
+HOW TO ADD THIS JAR FILE INTO YOUR PROJECT: (Eclipse)
+- File -- new -- java project (provide project name and click on finish)
+- Click on project -- right click -- build path -- add external archives (browse and select the jar file, done)
+
+------------------------------------------------------------------------------------
+
+CONNECTING JAVA AND DB:
+
+- PostgreSQL, MySQL etc ate networked DB which means thye are available through a network that means we'll need to mention IP and port to be able to connect with it.
+
+-------------------------
+
+How interface methods are called through interface object?: 
+why these are accessed as object.methodname():
+---
+Connection con = DriverManager.getConnection(url, userName, password);  
+Statement statement = con.createStatement(); 	
+ResultSet executeQuery = statement.executeQuery(sql);
+---
+
+Great question! The reason why methods like `createStatement()` and `executeQuery()` are accessed using **object.methodName()** even though they are declared in an **interface** (`Connection` and `Statement`, respectively) is due to **polymorphism and dynamic method dispatch** in Java.
+
+---
+### **Key Concepts**
+1. **Interfaces Define Behavior, Implementing Classes Provide Functionality**  
+   - In Java, an interface only **declares** methods, but actual implementations are provided by concrete classes.
+   - When you call `createStatement()` on a `Connection` object, the underlying implementation is executed.
+
+2. **JDBC Uses Factory Methods**  
+   - JDBC works by **returning objects of concrete classes** via interface references.
+   - For example:
+     ```java
+     Connection con = DriverManager.getConnection(url, user, password);
+     ```
+     - The actual object returned is **not an instance of `Connection` directly**, but an instance of a **database-specific class** (e.g., `org.postgresql.jdbc.PgConnection` for PostgreSQL).
+     - This object **implements** the `Connection` interface.
+
+---
+### **Step-by-Step Breakdown**
+Let's analyze your code:
+```java
+Statement statement = con.createStatement();  
+ResultSet executeQuery = statement.executeQuery(sql);
+```
+
+- `con.createStatement();`
+  - `con` is a `Connection` reference.
+  - `createStatement()` is declared in the `Connection` interface.
+  - The actual database driver provides an implementation, e.g., `PgConnection` (PostgreSQL) or `MysqlConnection` (MySQL).
+  - Returns an object of a class that **implements** `Statement`.
+
+- `statement.executeQuery(sql);`
+  - `statement` is a `Statement` reference.
+  - `executeQuery(sql)` is declared in the `Statement` interface.
+  - The underlying JDBC driver provides the actual implementation.
+
+Thus, even though the methods are **declared in an interface**, they are **called on objects of classes that implement those interfaces**.
+
+---
+### **Example with Implementation Details**
+Here’s how it works under the hood:
+
+```java
+// Connection interface (JDBC API)
+public interface Connection {
+    Statement createStatement() throws SQLException;
+}
+
+// A database vendor provides an implementation
+class MySQLConnection implements Connection {
+    @Override
+    public Statement createStatement() {
+        return new MySQLStatement(); // Returning an implementing class
+    }
+}
+
+// Statement interface (JDBC API)
+public interface Statement {
+    ResultSet executeQuery(String sql) throws SQLException;
+}
+
+// A concrete implementation
+class MySQLStatement implements Statement {
+    @Override
+    public ResultSet executeQuery(String sql) {
+        System.out.println("Executing query: " + sql);
+        return new MySQLResultSet(); // Returns a concrete ResultSet
+    }
+}
+
+// Now, when we call:
+Connection con = new MySQLConnection();
+Statement stmt = con.createStatement(); // Calls MySQLConnection's createStatement()
+stmt.executeQuery("SELECT * FROM students"); // Calls MySQLStatement's executeQuery()
+```
+
+---
+### **Conclusion**
+- **Methods in interfaces are accessed via implementing objects** because Java uses **dynamic method dispatch (runtime polymorphism)**.
+- The actual database-specific implementations are provided by JDBC drivers, but they adhere to the **standard JDBC API** (interfaces like `Connection`, `Statement`, and `ResultSet`).
+- This allows developers to write **database-independent code** using JDBC.
+
+------------------------------------------------------------------------------------
+
+using PREPARED STATEMENT over STATEMENT:
+
+3 benefits of using prepared statement over statement-
+1) no multiple '' and "" in query to pass variable which is tedious and confusing
+2) reduces the chance of SQL injection
+3) caches the query, improves performance
+
+In PreparedStatement, just replace dynamic data with ? and later set the value of this ? before executing the query.
+
+------------------------------------------------------------------------------------
